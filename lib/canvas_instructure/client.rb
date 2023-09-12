@@ -15,7 +15,6 @@ module CanvasInstructure
     end
 
     def init!
-      self.authorization_base_64 = Base64.strict_encode64("#{public_key}:#{private_key}")
       self
     end
 
