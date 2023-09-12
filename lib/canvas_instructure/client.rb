@@ -5,7 +5,7 @@ module CanvasInstructure
   class Client
     include HTTParty
     include CanvasInstructure::Client::Authentication
-    attr_accessor :client_id, :client_secret, :host :access_token
+    attr_accessor :client_id, :client_secret, :host, :access_token
 
      def initialize(options = {})
       options.each do |key, value|
