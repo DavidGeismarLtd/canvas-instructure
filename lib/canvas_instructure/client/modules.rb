@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module RiseUp
+module CanvasInstructure
   class Client
     module Modules
       def retrieve_modules(course_id)
