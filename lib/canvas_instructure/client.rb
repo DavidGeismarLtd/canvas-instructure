@@ -15,12 +15,12 @@ require 'canvas_instructure/client/modules'
 module CanvasInstructure
   class Client
     include HTTParty
-    include CanvasInstructure::Client::Authentication
-    include CanvasInstructure::Client::Users
-    include CanvasInstructure::Client::Enrollments
-    include CanvasInstructure::Client::Groups
-    include CanvasInstructure::Client::Modules
-    include CanvasInstructure::Client::Courses
+    include Authentication
+    include Users
+    include Enrollments
+    include Groups
+    include Modules
+    include Courses
 
     attr_accessor :client_id, :client_secret, :host, :access_token
 
