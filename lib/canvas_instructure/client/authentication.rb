@@ -24,6 +24,8 @@ module CanvasInstructure
         response = HTTParty.post("#{host}/login/oauth2/token", body: params)
         @access_token = response['access_token']
         @refresh_token = response['refresh_token']
+
+        { access_token: @access_token, refresh_token: @refresh_token }
       end
 
       def authenticated_get(path)
