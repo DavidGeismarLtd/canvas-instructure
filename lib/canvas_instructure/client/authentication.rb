@@ -40,10 +40,11 @@ module CanvasInstructure
           grant_type: 'refresh_token',
           client_id: client_id,
           client_secret: client_secret,
-          refresh_token: refresh_token
+          refresh_token: token_storage.refresh_token
         }
         response = HTTParty.post("#{host}/login/oauth2/token", body: params)
         @access_token = response['access_token']
+        token_storage.update(canvas_oauth_token: @access_token)
       end
     end
   end

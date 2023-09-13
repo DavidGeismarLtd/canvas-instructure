@@ -48,7 +48,7 @@ module CanvasInstructure
       if parsed_response.is_a?(Hash) && parsed_response['errors']
         if parsed_response['errors'].first['message'] == "Invalid access token."
           # should refresh token
-          binding.pry
+          refresh_access_token
         end
         raise(ApiResponseError, "#{parsed_response['errors']}")
       end
