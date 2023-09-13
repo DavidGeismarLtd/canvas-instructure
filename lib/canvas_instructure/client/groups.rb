@@ -24,9 +24,9 @@ module CanvasInstructure
         }).body
       end
 
-      def retrieve_groups("/api/v1/users/self/groups")
+      def retrieve_groups
         request(ApiResource::Group) do
-         self.class.get(BASE, {
+         self.class.get("/api/v1/users/self/groups", {
                                      query: options,
                                      headers: {
                                        'Authorization' => "Bearer #{access_token}",
