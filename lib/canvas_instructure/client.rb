@@ -13,6 +13,7 @@ require 'canvas_instructure/api_resource/module'
 require 'canvas_instructure/client/modules'
 
 module CanvasInstructure
+  class ApiResponseError < StandardError; end
   class Client
     include HTTParty
     include Authentication
@@ -44,14 +45,8 @@ module CanvasInstructure
 # "1ef7a484f8e4e76ed9c0c7bc6af1b08ef5cb045f"
     def request(resource = nil)
       parsed_response = JSON.parse(yield)
-      if parsed_response.is_a?(Hash) && parsed_response['error']
-        # handle errors
-        # case parsed_response['error']
-        # when "expired_token"
-        #   raise(ExpiredTokenError, "#{parsed_response['error']} - #{parsed_response['error_description']}")
-        # else
-        #   raise(ApiResponseError, "#{parsed_response['error']} - #{parsed_response['error_description']}")
-        # end
+      if parsed_response.is_a?(Hash) && parsed_response['errors']
+        raise(ApiResponseError, "#{parsed_response['errors']}")
       end
       return parsed_response.map{ |item| resource.new(item) } if parsed_response.is_a?(Array) && resource
       return resource.new(parsed_response) if resource
