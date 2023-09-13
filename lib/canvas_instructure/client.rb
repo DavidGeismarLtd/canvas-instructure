@@ -23,7 +23,7 @@ module CanvasInstructure
     include Modules
     include Courses
 
-    attr_accessor :client_id, :client_secret, :access_token
+    attr_accessor :client_id, :client_secret, :access_token, :token_storage
     attr_reader :host
 
      def initialize(options = {})
@@ -46,8 +46,13 @@ module CanvasInstructure
     def request(resource = nil)
       parsed_response = JSON.parse(yield)
       if parsed_response.is_a?(Hash) && parsed_response['errors']
+        if parsed_response['errors'].first['message'] == "Invalid access token."
+          # should refresh token
+          binding.pry
+        end
         raise(ApiResponseError, "#{parsed_response['errors']}")
       end
+
       return parsed_response.map{ |item| resource.new(item) } if parsed_response.is_a?(Array) && resource
       return resource.new(parsed_response) if resource
 
