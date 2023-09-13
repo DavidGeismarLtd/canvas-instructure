@@ -1,10 +1,26 @@
 require 'httparty'
 require 'canvas_instructure/client/authentication'
+require 'canvas_instructure/api_resource/user'
+require 'canvas_instructure/client/users'
+require 'canvas_instructure/api_resource/enrollment'
+require 'canvas_instructure/client/enrollments'
+require 'canvas_instructure/api_resource/group'
+require 'canvas_instructure/client/groups'
+require 'canvas_instructure/api_resource/course'
+require 'canvas_instructure/client/courses'
+require 'canvas_instructure/api_resource/module'
+require 'canvas_instructure/client/modules'
 
 module CanvasInstructure
   class Client
     include HTTParty
     include CanvasInstructure::Client::Authentication
+    include CanvasInstructure::Client::Users
+    include CanvasInstructure::Client::Enrollments
+    include CanvasInstructure::Client::Groups
+    include CanvasInstructure::Client::Modules
+    include CanvasInstructure::Client::Courses
+
     attr_accessor :client_id, :client_secret, :host, :access_token
 
      def initialize(options = {})
@@ -37,13 +53,13 @@ module CanvasInstructure
 
     # food for thoughs
     # rescue ::RiseUp::ExpiredTokenError => e
-    #   account.global_config.update(rise_up_access_token_details: nil)
+    #   account.global_config.update(canvas_instructure_access_token_details: nil)
     #   token_details = authenticate
     #   account.global_config.update(
-    #     rise_up_access_token_details: token_details
+    #     canvas_instructure_access_token_details: token_details
     #   )
-    #   self.access_token_details = account.global_config.rise_up_access_token_details
-    #   self.access_token = account.global_config.rise_up_access_token_details['access_token']
+    #   self.access_token_details = account.global_config.canvas_instructure_access_token_details
+    #   self.access_token = account.global_config.canvas_instructure_access_token_details['access_token']
     #   @retries = @retries ? @retries + 1 : 1
     #   @retries > RETRY_LIMIT ? raise(e) : retry
     end
