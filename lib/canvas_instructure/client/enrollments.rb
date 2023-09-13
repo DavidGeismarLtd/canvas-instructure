@@ -2,7 +2,7 @@
 
 module CanvasInstructure
   class Client
-    module CanvasInstructure
+    module Enrollments
       def create_enrollment(user_id, course_id, options = {})
         request(ApiResource::Enrollment) do
           self.class.post("/api/v1/courses/#{course_id}/enrollments", {
