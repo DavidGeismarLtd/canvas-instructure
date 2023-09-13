@@ -22,13 +22,19 @@ module CanvasInstructure
     include Modules
     include Courses
 
-    attr_accessor :client_id, :client_secret, :host, :access_token
+    attr_accessor :client_id, :client_secret, :access_token
+    attr_reader: :host
 
      def initialize(options = {})
       options.each do |key, value|
         instance_variable_set("@#{key}", value)
       end
       yield(self) if block_given?
+    end
+
+    def host=(value)
+      @host = value
+      set_base_uri
     end
 
     def init!
@@ -51,18 +57,12 @@ module CanvasInstructure
       return resource.new(parsed_response) if resource
 
       parsed_response
+    end
 
-    # food for thoughs
-    # rescue ::RiseUp::ExpiredTokenError => e
-    #   account.global_config.update(canvas_instructure_access_token_details: nil)
-    #   token_details = authenticate
-    #   account.global_config.update(
-    #     canvas_instructure_access_token_details: token_details
-    #   )
-    #   self.access_token_details = account.global_config.canvas_instructure_access_token_details
-    #   self.access_token = account.global_config.canvas_instructure_access_token_details['access_token']
-    #   @retries = @retries ? @retries + 1 : 1
-    #   @retries > RETRY_LIMIT ? raise(e) : retry
+    private
+
+    def set_base_uri
+      self.class.base_uri host
     end
   end
 end
