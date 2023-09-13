@@ -24,7 +24,7 @@ module CanvasInstructure
     include Courses
 
     attr_accessor :client_id, :client_secret, :access_token
-    attr_reader: :host
+    attr_reader :host
 
      def initialize(options = {})
       options.each do |key, value|
