@@ -1,4 +1,5 @@
 require 'httparty'
+require 'canvas_instructure/api_resource/resource'
 require 'canvas_instructure/client/authentication'
 require 'canvas_instructure/api_resource/user'
 require 'canvas_instructure/client/users'
