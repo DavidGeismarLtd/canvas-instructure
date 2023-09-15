@@ -16,6 +16,18 @@ module CanvasInstructure
         end
       end
 
+      def list_users(account_id, search_term = nil)
+        request(ApiResource::User) do
+          self.class.get("/api/v1/accounts/#{account_id}/users", {
+                           query: { search_term: search_term },
+                           headers: {
+                             'Authorization' => "Bearer #{access_token}",
+                             'Content-Type' => 'application/json'
+                           }
+                         }).body
+        end
+      end
+
       def get_user(id)
        request(ApiResource::User) do
          self.class.get("/api/v1/users/#{id}", {
