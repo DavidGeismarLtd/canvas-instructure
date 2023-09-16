@@ -59,7 +59,12 @@ module CanvasInstructure
           parsed_response
         end
       rescue RuntimeError => e
-        retry_request(e, retries, max_retries)
+        if should_retry?(e, retries, max_retries)
+          retries += 1
+          retry
+        else
+          raise e
+        end
       end
     end
 
@@ -84,15 +89,10 @@ module CanvasInstructure
       resource.new(response) if resource
     end
 
-    def retry_request(exception, retries, max_retries)
-      if exception.message == 'Token refreshed. Retrying request.' && retries < max_retries
-        retries += 1
-        retry
-      else
-        raise exception
-      end
+    def should_retry?(exception, retries, max_retries)
+      exception.message == 'Token refreshed. Retrying request.' && retries < max_retries
     end
-
+    
     def set_base_uri
       self.class.base_uri host
     end
