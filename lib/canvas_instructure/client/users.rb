@@ -7,7 +7,7 @@ module CanvasInstructure
       def create_user(account_id, options = {})
         request(ApiResource::User) do
           self.class.post("/api/v1/accounts/#{account_id}/users", {
-                            body: options.merge(username:).to_json,
+                            body: options.to_json,
                             headers: {
                               'Authorization' => "Bearer #{access_token}",
                               'Content-Type' => 'application/json'
