@@ -42,24 +42,56 @@ module CanvasInstructure
       self
     end
 
-# "1ef7a484f8e4e76ed9c0c7bc6af1b08ef5cb045f"
     def request(resource = nil)
-      parsed_response = JSON.parse(yield)
-      if parsed_response.is_a?(Hash) && parsed_response['errors']
-        if parsed_response['errors'].first['message'] == "Invalid access token."
-          # should refresh token
-          refresh_access_token
+      max_retries = 2
+      retries = 0
+    
+      begin
+        parsed_response = JSON.parse(yield)
+        handle_errors(parsed_response)
+    
+        case parsed_response
+        when Array
+          handle_array_response(parsed_response, resource)
+        when Hash
+          handle_hash_response(parsed_response, resource)
+        else
+          parsed_response
         end
-        raise(ApiResponseError, "#{parsed_response['errors']}")
+      rescue RuntimeError => e
+        retry_request(e, retries, max_retries)
       end
-
-      return parsed_response.map{ |item| resource.new(item) } if parsed_response.is_a?(Array) && resource
-      return resource.new(parsed_response) if resource
-
-      parsed_response
     end
 
     private
+
+    def handle_errors(response)
+      return unless response.is_a?(Hash) && response['errors']
+    
+      if response['errors'].first['message'] == "Invalid access token."
+        refresh_access_token
+        raise 'Token refreshed. Retrying request.'
+      end
+    
+      raise(ApiResponseError, "#{response['errors']}")
+    end
+
+    def handle_array_response(response, resource)
+      response.map{ |item| resource.new(item) } if resource
+    end
+
+    def handle_hash_response(response, resource)
+      resource.new(response) if resource
+    end
+
+    def retry_request(exception, retries, max_retries)
+      if exception.message == 'Token refreshed. Retrying request.' && retries < max_retries
+        retries += 1
+        retry
+      else
+        raise exception
+      end
+    end
 
     def set_base_uri
       self.class.base_uri host
