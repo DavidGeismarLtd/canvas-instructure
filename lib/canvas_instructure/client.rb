@@ -71,14 +71,17 @@ module CanvasInstructure
     private
 
     def handle_errors(response)
-      return unless response.is_a?(Hash) && response['errors']
+      return unless response.is_a?(Hash) && response['errors'] || response['message']
     
       if response['errors'].first['message'] == "Invalid access token."
         refresh_access_token
         raise 'Token refreshed. Retrying request.'
       end
-    
-      raise(ApiResponseError, "#{response['errors']}")
+      if response['errors']
+        raise(ApiResponseError, "#{response['errors']}")
+      elsif response['message']
+        raise(ApiResponseError, "#{response['message']}")
+      end
     end
 
     def handle_array_response(response, resource)
