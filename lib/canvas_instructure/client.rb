@@ -71,7 +71,9 @@ module CanvasInstructure
     private
 
     def handle_errors(response)
-      return unless response.is_a?(Hash) && response['errors'] || response['message']
+      return unless response.is_a?(Hash)
+
+      return unless response['errors'] || response['message']
     
       if response['errors'].first['message'] == "Invalid access token."
         refresh_access_token
