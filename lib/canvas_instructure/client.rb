@@ -11,6 +11,8 @@ require 'canvas_instructure/api_resource/course'
 require 'canvas_instructure/client/courses'
 require 'canvas_instructure/api_resource/module'
 require 'canvas_instructure/client/modules'
+require 'canvas_instructure/api_resource/section'
+require 'canvas_instructure/client/sections'
 
 module CanvasInstructure
   class ApiResponseError < StandardError; end
@@ -22,6 +24,7 @@ module CanvasInstructure
     include Groups
     include Modules
     include Courses
+    include Sections
 
     attr_accessor :client_id, :client_secret, :access_token, :token_storage
     attr_reader :host
