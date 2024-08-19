@@ -26,7 +26,7 @@ module CanvasInstructure
     include Courses
     include Sections
 
-    attr_accessor :client_id, :client_secret, :access_token, :token_storage, :canvas_api_access_token
+    attr_accessor :client_id, :client_secret, :access_token, :token_storage, :api_access_token
     attr_reader :host
 
      def initialize(options = {})
@@ -44,7 +44,7 @@ module CanvasInstructure
     def init!
       self.class.default_options.merge!(
         query: {
-          access_token: canvas_api_access_token
+          access_token: api_access_token
         }
       )
       self
