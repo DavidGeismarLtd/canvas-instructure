@@ -9,6 +9,7 @@ module CanvasInstructure
           self.class.post("/api/v1/accounts/#{account_id}/users", {
                             body: options.to_json,
                             headers: {
+                              'Authorization' => "Bearer #{access_token}",
                               'Content-Type' => 'application/json'
                             }
                           }).body
@@ -20,6 +21,7 @@ module CanvasInstructure
           self.class.get("/api/v1/accounts/#{account_id}/users", {
                            query: { search_term: search_term },
                            headers: {
+                             'Authorization' => "Bearer #{access_token}",
                              'Content-Type' => 'application/json'
                            }
                          }).body
@@ -30,6 +32,7 @@ module CanvasInstructure
        request(ApiResource::User) do
          self.class.get("/api/v1/users/#{id}", {
                           headers: {
+                            'Authorization' => "Bearer #{access_token}",
                             'Content-Type' => 'application/json'
                           }
                         }).body

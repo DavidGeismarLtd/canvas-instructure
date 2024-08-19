@@ -28,6 +28,13 @@ module CanvasInstructure
         { access_token: @access_token, refresh_token: @refresh_token }
       end
 
+      def authenticated_get(path)
+        headers = {
+          'Authorization' => "Bearer #{@access_token}"
+        }
+        HTTParty.get("#{host}/#{path}", headers: headers)
+      end
+
       def refresh_access_token
         params = {
           grant_type: 'refresh_token',
