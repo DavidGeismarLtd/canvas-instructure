@@ -7,7 +7,7 @@ module CanvasInstructure
         request(ApiResource::Module) do
          self.class.get("/api/v1/courses/#{course_id}/modules", {
                                      headers: {
-                                       'Authorization' => "Bearer #{access_token}",
+                                       'Authorization' => "Bearer #{api_access_token}",
                                        'Content-Type' => 'application/json'
                                      }
                                    }).body
