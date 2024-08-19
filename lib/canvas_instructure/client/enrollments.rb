@@ -13,7 +13,6 @@ module CanvasInstructure
                               }
                             ).to_json,
                             headers: {
-                              'Authorization' => "Bearer #{access_token}",
                               'Content-Type' => 'application/json'
                             }
                           }).body
@@ -23,7 +22,6 @@ module CanvasInstructure
       def delete_course_enrollment(course_id, enrollment_id)
           self.class.delete("/api/v1/courses/#{course_id}/enrollments/#{enrollment_id}", {
                             headers: {
-                              'Authorization' => "Bearer #{access_token}",
                               'Content-Type' => 'application/json'
                             }
                           }).body
@@ -39,7 +37,6 @@ module CanvasInstructure
                               }
                             ).to_json,
                             headers: {
-                              'Authorization' => "Bearer #{access_token}",
                               'Content-Type' => 'application/json'
                             }
                           }).body
@@ -49,7 +46,6 @@ module CanvasInstructure
       def delete_section_enrollment(section_id, enrollment_id)
           self.class.delete("/api/v1/sections/#{section_id}/enrollments/#{enrollment_id}", {
                             headers: {
-                              'Authorization' => "Bearer #{access_token}",
                               'Content-Type' => 'application/json'
                             }
                           }).body
@@ -61,7 +57,6 @@ module CanvasInstructure
          self.class.get("/api/v1/accounts/#{account_id}/enrollments/#{enrollment_id}", {
                                      query: options,
                                      headers: {
-                                       'Authorization' => "Bearer #{access_token}",
                                        'Content-Type' => 'application/json'
                                      }
                                    }).body
