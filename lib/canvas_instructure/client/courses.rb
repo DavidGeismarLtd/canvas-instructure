@@ -6,6 +6,7 @@ module CanvasInstructure
       def retrieve_courses
         request(ApiResource::Course) do
          self.class.get("/api/v1/courses", {
+                                     query: { "per_page" => 100 },
                                      headers: {
                                        'Authorization' => "Bearer #{api_access_token}",
                                        'Content-Type' => 'application/json'

@@ -27,6 +27,7 @@ module CanvasInstructure
       def retrieve_groups
         request(ApiResource::Group) do
          self.class.get("/api/v1/users/self/groups", {
+                                     query: { "per_page" => 100 }, 
                                      headers: {
                                        'Authorization' => "Bearer #{api_access_token}",
                                        'Content-Type' => 'application/json'
