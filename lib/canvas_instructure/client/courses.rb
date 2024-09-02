@@ -43,6 +43,7 @@ module CanvasInstructure
           next_page_url = next_page_link[1] if next_page_link
           page += 1
         end
+        all_courses
       end
     end
   end
