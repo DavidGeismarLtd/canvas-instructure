@@ -84,12 +84,7 @@ module CanvasInstructure
       return unless response['errors'] || response['message']
   
       if response['errors']  
-        if response['errors'].first['message'] == "Invalid access token."
-          refresh_access_token
-          raise 'Token refreshed. Retrying request.'
-        else
-          raise(ApiResponseError, "#{response['errors']}")
-        end
+        raise(ApiResponseError, "#{response['errors']}")
       elsif response['message']
         raise(ApiResponseError, "#{response['message']}")
       end
